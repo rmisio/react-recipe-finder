@@ -1,0 +1,53 @@
+.recipe-form {
+  margin-top: 50px;
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+
+    & > span {
+      margin-right: 8px;
+    }
+
+    &.has-error {
+      input, textarea, select {
+        border: 1px solid red;
+      }
+    }
+
+    &.lblDescription {
+      span {
+        vertical-align: top;
+      }
+
+      textarea {
+        height: 100px;
+      }
+    }
+  }
+
+  input, textarea {
+    padding: 3px 10px;
+  }
+
+  button {
+    margin-top: 10px;
+    display: block;
+  }
+
+  .error-msg {
+    color: red;
+  }
+
+  .photo {
+    width: 300px;
+    max-height: 300px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+}

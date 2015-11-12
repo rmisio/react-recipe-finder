@@ -1,0 +1,42 @@
+.clearfix:before,
+.clearfix:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+#app > div {
+  header {
+    background-color: #fee;
+    padding: 15px 0;
+    border-bottom: 1px solid #CCC;
+    
+    ul {
+      margin: 0;
+
+      li {
+        list-style-type: none;
+        float: left;
+        margin: 0 5px;
+
+        &:first-child {
+          margin-left: 0;
+        }
+
+        a {
+          color: #333;
+          text-decoration: none;
+
+          &:hover, &.active {
+            color: black;
+            border-bottom: 1px solid black;
+          }
+        }
+      }
+    }
+  }
+
+  .page-container {
+    padding: 0 15px;
+  }
+}
