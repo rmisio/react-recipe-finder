@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { Link } from "react-router";
 
-import RecipeForm from "./RecipeForm.js";
-import RecipeList from "./RecipeList.js";
-import Recipe from "./Recipe.js";
+// import RecipeForm from "./RecipeForm.js";
+// import RecipeList from "./RecipeList.js";
+// import Recipe from "./Recipe.js";
+import RecipeStore from "../stores/Recipe.js";
 
 import "../styles/app.scss";
 
@@ -10,55 +12,56 @@ class App extends Component {
   constructor() {
     super();
 
-    this.state = {...this.getPageState('home')};
+    this.recipeStore = new RecipeStore();
+    // this.state = {...this.getPageState('home')};
   }
 
-  getRecipes() {
-    let recipes;
+  // getRecipes() {
+  //   let recipes;
 
-    try {
-      recipes = JSON.parse(localStorage.getItem('recipes'));
-    } catch (e) {
-      // pass
-    }
+  //   try {
+  //     recipes = JSON.parse(localStorage.getItem('recipes'));
+  //   } catch (e) {
+  //     // pass
+  //   }
 
-    return recipes || [];    
-  }
+  //   return recipes || [];    
+  // }
 
-  getRecipe(id) {
-    if (!id) return;
+  // getRecipe(id) {
+  //   if (!id) return;
 
-    return this.getRecipes().find((recipe) => {
-      return recipe.id === id;
-    });
-  }
+  //   return this.getRecipes().find((recipe) => {
+  //     return recipe.id === id;
+  //   });
+  // }
 
-  deleteRecipe(id) {
-    localStorage.setItem('recipes', JSON.stringify(
-      this.getRecipes().filter((recipe) => {
-        return recipe.id !== id;
-      })
-    ));
-  }
+  // deleteRecipe(id) {
+  //   localStorage.setItem('recipes', JSON.stringify(
+  //     this.getRecipes().filter((recipe) => {
+  //       return recipe.id !== id;
+  //     })
+  //   ));
+  // }
 
   getPageState(name, options) {
     let pageComponent;
 
     switch (name) {
-      case 'home':
-        pageComponent = <RecipeList recipes={this.getRecipes()} onRecipeClick={this.onRecipeClick.bind(this)} />;
-        break;      
+      // case 'home':
+      //   pageComponent = <RecipeList recipes={this.getRecipes()} onRecipeClick={this.onRecipeClick.bind(this)} />;
+      //   break;      
       case 'add-recipe':
         pageComponent = <RecipeForm onRecipeSave={this.onRecipeSave.bind(this)} />;
         break;
       case 'edit-recipe':
         pageComponent = <RecipeForm recipe={options.recipe} onRecipeSave={this.onRecipeSave.bind(this)} />;
         break;
-      case 'recipe':
-        pageComponent = <Recipe {...options.recipe}
-          onEdit={this.onRecipeEdit.bind(this)}
-          onDelete={this.onRecipeDelete.bind(this)} />;
-        break;
+      // case 'recipe':
+      //   pageComponent = <Recipe {...options.recipe}
+      //     onEdit={this.onRecipeEdit.bind(this)}
+      //     onDelete={this.onRecipeDelete.bind(this)} />;
+      //   break;
     }
 
     return {
@@ -67,11 +70,11 @@ class App extends Component {
     };
   }
 
-  onHeaderLinkClick(name, e) {  
-    e.preventDefault();
+  // onHeaderLinkClick(name, e) {  
+  //   e.preventDefault();
 
-    this.setState({...this.getPageState(name)});    
-  }
+  //   this.setState({...this.getPageState(name)});    
+  // }
 
   onRecipeEdit(recipeId) {
     this.setState({...this.getPageState('edit-recipe', {recipe: this.getRecipe(recipeId)})});
@@ -100,44 +103,27 @@ class App extends Component {
     this.setState({...this.getPageState('home')});
   }
 
-  onRecipeClick(recipe) {
-    this.setState({...this.getPageState('recipe', {recipe})});
-  }
+  // onRecipeClick(recipe) {
+  //   this.setState({...this.getPageState('recipe', {recipe})});
+  // }
 
   render() {
-    let homeNav;
-
-    if (this.state.activePageName !== 'home') {
-      homeNav = <li>
-                  <a href="#"
-                     onClick={this.onHeaderLinkClick.bind(this, 'home')}>
-                     Home
-                  </a>
-                </li>;
-    }
-
     return (
       <div>
         <header>
           <ul className="clearfix">
-            {homeNav}
+            {
+              this.props.location.pathname !== '/' ?
+                <li><Link to="/">Home</Link></li> : ''
+            }
             <li>
-              <a href="#"
-                 className={this.state.activePageName === 'add-recipe' ? 'active' : ''}
-                 onClick={this.onHeaderLinkClick.bind(this, 'add-recipe')}>
-                 Add Recipe
-              </a>
-            </li>
-            <li>
-              <a href="#"
-                 onClick={this.onHeaderLinkClick.bind(this, 'moonshine-minutia')}>
-                 Moonshine Minutia
-             </a>
+              <Link to="/recipe/add" activeClassName="active">Add Recipe</Link>
             </li>
           </ul>
         </header>
         <div className="page-container">
-        {this.state.pageComponent}
+        {/*this.state.pageComponent*/}
+        {React.cloneElement(this.props.children, {store: this.recipeStore })}
         </div>
       </div>
     )

@@ -16,24 +16,24 @@ class RecipeForm extends Component {
 
   parseForm() {
     return {
-      'title': this.refs.title.getDOMNode().value,
-      'photoUrl': this.refs.photoUrlInput.getDOMNode().value,
-      'description': this.refs.description.getDOMNode().value
+      'title': this.refs.title.value,
+      'photoUrl': this.refs.photoUrlInput.value,
+      'description': this.refs.description.value
     }
   }
 
   disableForm() {
-    this.refs.title.getDOMNode().disabled = true;
-    this.refs.photoUrl.getDOMNode().disabled = true;
-    this.refs.description.getDOMNode().disabled = true;
-    this.refs.btnSubmit.getDOMNode().disabled = true;
+    this.refs.title.disabled = true;
+    this.refs.photoUrl.disabled = true;
+    this.refs.description.disabled = true;
+    this.refs.btnSubmit.disabled = true;
   }
 
   enableForm() {
-    this.refs.title.getDOMNode().disabled = false;
-    this.refs.photoUrl.getDOMNode().disabled = false;
-    this.refs.description.getDOMNode().disabled = false;
-    this.refs.btnSubmit.getDOMNode().disabled = false;
+    this.refs.title.disabled = false;
+    this.refs.photoUrl.disabled = false;
+    this.refs.description.disabled = false;
+    this.refs.btnSubmit.disabled = false;
   }
 
   formSubmit(e) {
@@ -46,19 +46,23 @@ class RecipeForm extends Component {
 
       delete recipe['photoUrl'];
       
-      window.meatballs = this.refs.photoImg.getDOMNode();
-
       this.props.onRecipeSave({
         ...recipe,
         id: this.props.recipe.id,
         photo: {
-          src:  this.refs.photoImg.getDOMNode().src,
-          height: this.refs.photoImg.getDOMNode().naturalHeight,
-          width: this.refs.photoImg.getDOMNode().naturalWidth
+          src:  this.refs.photoImg.src,
+          height: this.refs.photoImg.naturalHeight,
+          width: this.refs.photoImg.naturalWidth
         }
       });
-    }).catch(() => {
-      alert('There are one or more errors. Please fix.');
+    }).catch((e) => {
+      console.log(this.state.errors);
+
+      if (Object.keys(this.state.errors).length) {
+        alert('There are one or more errors. Please fix.');
+      } else {
+        throw e;
+      }
     });
   }
 
@@ -158,7 +162,7 @@ class RecipeForm extends Component {
     
     fieldObj[name] = e.target.value;
 
-    if (e.target == this.refs.photoUrlInput.getDOMNode()) {
+    if (e.target == this.refs.photoUrlInput) {
       this.setPhotoUrl(e.target.value);
       return;
     }
