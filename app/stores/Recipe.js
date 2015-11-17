@@ -17,8 +17,7 @@ class RecipeStore {
     if (!id) return;
 
     return this._recipes.find((recipe) => {
-      // TODO: use ===
-      return recipe.id == id;
+      return recipe.id === id;
     });
   }
 
@@ -39,18 +38,23 @@ class RecipeStore {
 
     if (recipe.id) {
       curRecipeIndex = this._recipes.findIndex((rec) => {
-        // TODO: use ===
-        return recipe.id == rec.id;
+        return recipe.id === rec.id;
       });
-    }
 
-    if (curRecipeIndex) {
-      this._recipes[curRecipeIndex] = recipe;
+      if (curRecipeIndex !== -1) {
+        this._recipes[curRecipeIndex] = recipe;
+        this._saveRecipes();
 
-      return recipe;
+        return recipe;
+      } else {
+        throw new Error('Unable to find the recipe with the given id, ' + recipe.id);
+      }
     } else {
       let savedRecipe = { ...recipe, id: (new Date().getTime()).toString() };
-      this._recipes = { ...this._recipes, savedRecipe};
+
+      this.meatballs = savedRecipe;
+
+      this._recipes = [ ...this._recipes, savedRecipe];
       this._saveRecipes();
 
       return savedRecipe;

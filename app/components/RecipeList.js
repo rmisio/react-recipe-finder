@@ -7,10 +7,6 @@ import "../styles/recipe-list.scss";
 class RecipeList extends Component {
   constructor(props) {
     super(props);
-
-    // this.state = {
-      
-    // }
   }
 
   onRecipeClick(recipe) {

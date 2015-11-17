@@ -55,14 +55,10 @@ class RecipeForm extends Component {
           width: this.refs.photoImg.naturalWidth
         }
       });
+    }, (e) => {
+      alert('There are one or more errors. Please fix.');
     }).catch((e) => {
-      console.log(this.state.errors);
-
-      if (Object.keys(this.state.errors).length) {
-        alert('There are one or more errors. Please fix.');
-      } else {
-        throw e;
-      }
+      throw e;
     });
   }
 
@@ -105,7 +101,7 @@ class RecipeForm extends Component {
           img.src = fields.photoUrl;
         });
       } else {
-        delete errors['photoUrl'];
+        errors.photoUrl = 'A Photo url is required.';
       }
     }    
 
@@ -224,7 +220,6 @@ class RecipeForm extends Component {
 
 RecipeForm.defaultProps = {
   recipe: {
-    id: new Date().getTime(),
     title: '',
     description: '',
     photo: {
