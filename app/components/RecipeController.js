@@ -20,8 +20,9 @@ class RecipeController extends Component {
     const recipe = this.props.store.getRecipe(id);
 
     if (!recipe) {
+      window.sorry = this.props;
       alert('Sorry Yo, that recipe does not exist.');
-      this.props.history.pushState(null, '/', null);
+      this.props.history.replaceState(null, '/', null);
     } else {
       this.setState({ recipe });
     }
@@ -36,7 +37,7 @@ class RecipeController extends Component {
   }
 
   render() {
-    const recipe = this.state.recipe ?
+    const recipe = this.state && this.state.recipe ?
       <Recipe {...this.state.recipe}
         onEdit={this.onRecipeEdit.bind(this)}
         onDelete={this.onRecipeDelete.bind(this)} /> :

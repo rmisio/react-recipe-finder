@@ -9,6 +9,10 @@ class App extends Component {
   constructor() {
     super();
 
+    this.state = {
+      prevPath: null
+    }
+
     this.recipeStore = new RecipeStore();
   }
 
@@ -24,10 +28,13 @@ class App extends Component {
             <li>
               <Link to="/recipe/add" activeClassName="active">Add Recipe</Link>
             </li>
+            <li>
+              {this.state.prevPath}
+            </li>
           </ul>
         </header>
         <div className="page-container">
-        {React.cloneElement(this.props.children, {store: this.recipeStore })}
+        {React.cloneElement(this.props.children, {store: this.recipeStore})}
         </div>
       </div>
     )
